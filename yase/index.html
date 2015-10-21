@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="yase">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body ng-controller="MainCtrl">
+<ul swing-stack class="card-container" id="card-container">
+    <li swing-card swing-on-throwout="remove($index)" class="card" ng-class="card-{{$index}}"  ng-repeat="card in cards">
+        <img ng-src="http://i.dailymail.co.uk/i/pix/2015/09/28/16/2CDCD07600000578-3251966-image-a-112_1443453369162.jpg">
+        <h1>{{card.title}}</h1>
+        <p>{{card.body}}</p>
+    </li>
+</ul>
+<script src="angular.min.js"></script>
+<script src="plugins/angular-swing.min.js"></script>
+<script src="app.js"></script>
+<script src="controllers/main.js"></script>
+</body>
+</html>

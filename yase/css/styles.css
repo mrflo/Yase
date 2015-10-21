@@ -1,0 +1,55 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+html, body {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+#card-container {
+    min-height: 400px;
+    width: 600px;
+    margin: auto;
+    top: 50%;
+    position: relative;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    font-family: Helvetica, Arial, Verdana;
+}
+
+.card {
+    position: absolute;
+    height: auto;
+    width: 100%;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 8px #f3f3f3;
+}
+
+.card.removed {
+    opacity: 0;
+}
+
+.card img {
+    max-height: 300px;
+    display: block;
+    pointer-events: none;
+}
+
+.card h1 {
+    margin: 20px 0;
+}
+
+.card:nth-child(odd){
+    transform: rotate(1deg);
+}
