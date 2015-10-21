@@ -1,0 +1,13 @@
+{
+  "name": "yase",
+  "description": "Yase is a Chrome extension that share a random article of Wikipedia when opening a new tab",
+  "version": "0.1",
+  "permissions": ["tabs"],
+  "chrome_url_overrides" : {
+        "newtab": "newtab.html"
+  },
+  "background": {
+    "scripts": ["yase.js"]
+  },
+  "manifest_version": 3
+}
