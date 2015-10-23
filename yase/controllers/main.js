@@ -88,7 +88,7 @@ function GetArticle($http)
         });
     }
     
-    //return article;
+    return article;
 }
 
 function MapArticle(articles)
