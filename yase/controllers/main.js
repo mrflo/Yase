@@ -18,7 +18,7 @@ function MainCtrl($scope,GetArticle,MapArticle,$rootScope) {
     });
     
 
-$scope.remove = function (index){
+    $scope.remove = function (index){
 
 
         var cardElement = document.getElementById('card-container').children[index];
@@ -30,6 +30,15 @@ $scope.remove = function (index){
         }, 500);
 
         $scope.cards.splice(index, 1);
+        
+        if($scope.cards.length==0)
+        {
+          GetArticle.get().success(function(data){
+          $scope.cards = MapArticle.map(data).concat($scope.cards);
+          console.log($scope.cards);
+
+            });      
+        }
 
     }
 
