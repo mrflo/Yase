@@ -36,10 +36,9 @@ $scope.remove = function (index){
 }
 
 
-function GetArticle($http, $rootScope)
+function GetArticle($http)
 {
-    var article = {};
-    
+
     //wikipedia call
     var url = "https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&rnlimit=5&grnlimit=5&exlimit=5&exintro&prop=extracts|images&format=json";
     //"https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=5&type=article&format=json";
