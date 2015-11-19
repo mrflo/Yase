@@ -1,25 +1,9 @@
-/**
- * Created by mmoreira on 21/10/15.
- */
 
+function MainCtrl($scope,GetArticle,MapArticle,$rootScope,GetImage) {
 
-
-
-
-function MainCtrl($scope,GetArticle,MapArticle,$rootScope) {
-
-
-    GetArticle.get().success(function(data){
-
-        $scope.cards = MapArticle.map(data);
-
-        console.log($scope.cards);
-
-    });
+    var self = this;
     
-
     $scope.remove = function (index){
-
 
         var cardElement = document.getElementById('card-container').children[index];
 
@@ -33,15 +17,33 @@ function MainCtrl($scope,GetArticle,MapArticle,$rootScope) {
         
         if($scope.cards.length==0)
         {
-          GetArticle.get().success(function(data){
-          $scope.cards = MapArticle.map(data).concat($scope.cards);
-          console.log($scope.cards);
-
-            });      
+             self.LoadCards();      
         }
 
     }
 
+    this.LoadCards = function () {
+        GetArticle.get().success(function (data) {
+
+            $scope.cards = MapArticle.map(data);
+
+            //images
+            $scope.cards.forEach(function (card) {
+                if (card['imageid']) {
+                    console.log('image:' + card['imageid']);
+                    GetImage.get(card['imageid']).success(function () {
+                        console.log(GetImage.url);
+                        card['image'] = GetImage.url;
+                        //GetImage.url.toString(); //"https://commons.wikimedia.org/wiki/"+page.images[0].title.toString().replace(/ /g,"_");
+                    });
+                }
+            });
+
+            console.log($scope.cards);
+        });
+    }
+    
+    this.LoadCards();     
 }
 
 
@@ -99,12 +101,13 @@ function MapArticle()
             var card = {};
             card['title']=page.title;
             card['body']=page.extract;
-            if(page.images)
-                card['imgUrl']=page.images[0].title;
+            if(page.images){ 
+            card['imageid']=page.images[0].title;                           
+            }
             cards.push(card);
 
         }
-
+        console.log(cards);
         return cards; //articles.data.query.pages;
     }
 
@@ -113,8 +116,46 @@ function MapArticle()
 
 }
 
+function GetImage($http)
+{
+     
+    var image = {
+        url:"",
+        get : function(imageId){
+            //call to get image from wikipedia
+            var url = 'https://en.wikipedia.org/w/api.php?action=query&titles='+imageId+'&prop=imageinfo&iiprop=url&format=json';
+            var params = {
+                method : 'GET',
+                url : url,
+                headers : {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST',
+                    'Api-User-Agent': 'Example/1.0'
+                },
+                dataType : 'json'
+            }
+
+            var get = $http(params);
+
+            get.success(function(data){                
+                for(var img in data.query.pages)
+                {
+                    console.log("success:"+data.query.pages[img].imageinfo[0].url);
+                    image.url = data.query.pages[img].imageinfo[0].url;
+                    break;
+                }
+            }).error(function(err){
+                console.log(err);
+            })            
+        
+        return get;
+        }};
+
+    return image;
+}
+
 app.factory('MapArticle', MapArticle);
 app.factory('GetArticle', GetArticle);
-
+app.factory('GetImage', GetImage);
 
 app.controller('MainCtrl', MainCtrl);

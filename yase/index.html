@@ -7,8 +7,8 @@
 </head>
 <body ng-controller="MainCtrl">
 <ul swing-stack class="card-container" id="card-container">
-    <li swing-card swing-on-throwout="remove($index)" class="card" ng-class="card-{{$index}}"  ng-repeat="card in cards">
-        <img ng-src="http://">
+    <li swing-card swing-on-throwout="remove($index)" class="card" ng-class="card-{{$index}}" ng-repeat="card in cards">
+        <img ng-src="{{card.image}}">
         <h1>{{card.title}}</h1>
         <p ng-bind-html="card.body">{{card.body}}</p>
         
